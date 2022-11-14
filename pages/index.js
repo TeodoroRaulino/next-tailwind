@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/User.module.css'
 import { useState } from 'react'
 import Link from 'next/link'
+import User from '../components/user'
 
 export async function getStaticProps() {
   const data = await fetch('https://api.github.com/users/ronaldaraujo')
@@ -31,48 +32,13 @@ export default function Home({users}) {
               <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                   <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
               </div>
-              <input type="search" id="default-search" value={search} onChange={(ev) => setSearch(ev.target.value)} className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Digite o usuário que deseja encontrar..." required/>
-              <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+              <input type="search" id="default-search" value={search} onChange={(ev) => setSearch(ev.target.value)} className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Digite o usuário que deseja encontrar..."/>
           </div>
         </form>
 
         <div className={styles.container}>
-          { !!userFilter ? (
-            <div className="flex flex-col items-center rounded-lg border shadow-md md:flex-row md:max-w-auto dark:border-gray-700 dark:bg-gray-800 p-4">
-            <div className="flex flex-col justify-center text-center">
-              <img className="object-cover w-full h-96 rounded-t-lg md:h-48 md:w-48 md:rounded-full p-2" src={users.avatar_url} alt="imageRonaldAraujo"/>
-              <p className='dark:text-white'>{users.name}</p>
-              <Link href={users.html_url}><p className='dark:text-white opacity-80'>{users.login}</p></Link>
-            </div>
-            <div className="flex flex-col justify-between p-4 leading-normal md:max-w-xl">
-              <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{users.bio}</h5>
-              <div className="grid grid-cols-2 py-5">
-                <div className='flex flex-row'>
-                  <img src='/images/twitter.svg' className='px-2' alt='iconTwitter'/>
-                  <p className='dark:text-white'> {users.twitter_username} </p>
-                </div>
-                <div className='flex flex-row'>
-                  <img src='/images/location.svg' className='px-2' alt='iconLocation'/>
-                  <p className='dark:text-white'> {users.location} </p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2">
-                <div className='flex flex-row items-center'><img src='/images/follow.svg' className='px-2' alt='iconFollows'/>
-                  <p className='dark:text-white'>
-                    Seguindo: {users.following}
-                  <br/>
-                    Seguidores: {users.followers}
-                  </p>
-                </div>
-                <Link href='' className='w-fit'>
-                  <div className='flex flex-row items-center'>
-                    <img src='/images/repos.svg'className='px-2' alt='iconStar'/>
-                    <p className='dark:text-white'> Acesse meus repositórios: {users.repo}</p>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
+          { !!userFilter && search != "" ? (
+            <User users={users}/>
           ) : (
             <h1>Usuário não encontrado</h1>
           )}
